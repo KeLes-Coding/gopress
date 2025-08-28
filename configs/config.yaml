@@ -1,0 +1,25 @@
+# 服务配置
+server:
+  port: 8080
+  mode: debug # 运行模式: debug, test, release
+
+# 数据库配置
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  user: keles
+  password: "c05022007" # 这里替换成你的MySQL密码
+  dbname: gopress_db
+  charset: utf8mb4
+  parseTime: True
+  loc: Local
+
+# 日志配置
+log:
+  level: debug # 日志级别: debug, info, warn, error
+  format: console # 日志格式: console, json
+  filename: ./logs/gopress.log # 日志文件路径
+  max_size: 10    # 每个日志文件的最大尺寸 (MB)
+  max_backups: 5  # 保留的旧日志文件的最大数量
+  max_age: 30     # 旧日志文件保留的最大天数
+  compress: false # 是否压缩旧日志文件

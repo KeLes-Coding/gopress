@@ -1,0 +1,7 @@
+# Go build output
+gopress
+*.exe
+
+# Log files
+/logs/
+/doc/
