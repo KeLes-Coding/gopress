@@ -5,3 +5,4 @@ gopress
 # Log files
 /logs/
 /doc/
+/.vscode/

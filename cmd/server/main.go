@@ -15,6 +15,7 @@ import (
 	"github.com/KeLes-Coding/gopress/internal/config"
 	"github.com/KeLes-Coding/gopress/internal/dao"
 	"github.com/KeLes-Coding/gopress/internal/logger"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -56,6 +57,27 @@ func main() {
 	// gin.New() 创建一个不带任何默认中间件的纯净的 Gin 引擎。
 	// 这给了我们完全的控制权来决定使用哪些中间件。
 	r := gin.New()
+
+	// --- 新增 CORS 配置 ---
+	// 配置 CORS 中间件
+	corsConfig := cors.Config{
+		// 允许所有来源的请求，在开发环境中通常这样做
+		// 更安全的做法是指定具体的来源，例如: AllowOrigins: []string{"http://localhost:5173"}
+		AllowOrigins: []string{"*"},
+		// 允许的 HTTP 方法
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		// 允许携带的请求头
+		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
+		// 允许客户端 JS 读取的响应头
+		ExposeHeaders: []string{"Content-Length"},
+		// 是否允许携带 cookie
+		AllowCredentials: true,
+		// 预检请求的缓存时间
+		MaxAge: 12 * time.Hour,
+	}
+	// 将 CORS 中间件注册为全局中间件
+	r.Use(cors.New(corsConfig))
+
 	// 注册我们自定义的日志中间件和 Gin 官方的 Recovery 中间件。
 	// Recovery 中间件可以在发生 panic 时捕获它，并返回一个 500 错误，防止整个程序崩溃。
 	r.Use(middleware.GinLogger(logger.L), gin.Recovery())

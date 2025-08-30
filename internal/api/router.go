@@ -27,6 +27,10 @@ func RegisterRoutes(r *gin.Engine) {
 		// 注册用户登录接口
 		// POST /api/v1/login
 		apiV1Group.POST("/login", userHandler.LoginHandler)
+		// 获取文章列表: GET /api/v1/posts
+		apiV1Group.GET("/posts", postHandler.ListPostsHandler)
+		// 获取单篇文章: GET /api/v1/posts/:id
+		apiV1Group.GET("/posts/:id", postHandler.GetPostHandler)
 	}
 
 	// 认证路由组（需要 JWT 认证）
@@ -61,8 +65,6 @@ func RegisterRoutes(r *gin.Engine) {
 			postGroup := adminGroup.Group("/posts")
 			{
 				postGroup.POST("", postHandler.CreatePostHandler)       // 创建文章: POST /api/v1/admin/posts
-				postGroup.GET("", postHandler.ListPostsHandler)         // 获取文章列表: GET /api/v1/admin/posts
-				postGroup.GET("/:id", postHandler.GetPostHandler)       // 获取单篇文章: GET /api/v1/admin/posts/:id
 				postGroup.PUT("/:id", postHandler.UpdatePostHandler)    // 更新文章: PUT /api/v1/admin/posts/:id
 				postGroup.DELETE("/:id", postHandler.DeletePostHandler) // 删除文章: DELETE /api/v1/admin/posts/:id
 			}
