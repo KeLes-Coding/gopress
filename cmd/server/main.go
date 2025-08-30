@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/KeLes-Coding/gopress/internal/api"
 	"github.com/KeLes-Coding/gopress/internal/api/middleware"
 	"github.com/KeLes-Coding/gopress/internal/config"
 	"github.com/KeLes-Coding/gopress/internal/dao"
@@ -60,12 +61,7 @@ func main() {
 	r.Use(middleware.GinLogger(logger.L), gin.Recovery())
 
 	// --- 6. 注册路由 ---
-	r.GET("/ping", func(c *gin.Context) {
-		logger.L.Info("Received ping request", zap.String("client_ip", c.ClientIP()))
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	api.RegisterRoutes(r)
 
 	// --- 7. 启动服务并实现优雅关停 (Graceful Shutdown) ---
 	// 创建一个 http.Server 实例，这样我们可以更好地控制服务的启动和关闭。

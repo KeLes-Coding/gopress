@@ -90,6 +90,9 @@ func AutoMigrateTables() error {
 	// 如果表已存在，它会检查并添加缺失的字段、索引等，但不会删除或修改现有的列。
 	err := _db.AutoMigrate(
 		&model.User{}, // 传入需要迁移的模型结构体的指针
+		&model.Category{},
+		&model.Tag{},
+		&model.Post{},
 		// &model.Post{},
 		// &model.Category{},
 	)

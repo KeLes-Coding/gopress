@@ -2,6 +2,7 @@
 server:
   port: 8080
   mode: debug # 运行模式: debug, test, release
+  jwt_secret: "c05022007" # 用于签发 JWT 的密钥，请务必修改为一个更复杂的字符串
 
 # 数据库配置
 mysql:
@@ -23,3 +24,4 @@ log:
   max_backups: 5  # 保留的旧日志文件的最大数量
   max_age: 30     # 旧日志文件保留的最大天数
   compress: false # 是否压缩旧日志文件
+  

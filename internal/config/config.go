@@ -26,8 +26,9 @@ type Config struct {
 
 // Server 结构体定义了服务相关的配置。
 type Server struct {
-	Port int    `mapstructure:"port"` // 服务器监听的端口
-	Mode string `mapstructure:"mode"` // Gin 框架的运行模式 (debug, test, release)
+	Port      int    `mapstructure:"port"`       // 服务器监听的端口
+	Mode      string `mapstructure:"mode"`       // Gin 框架的运行模式 (debug, test, release)
+	JWTSecret string `mapstructure:"jwt_secret"` // JWT 签发密钥
 }
 
 // MySQL 结构体定义了数据库连接相关的配置。
