@@ -21,10 +21,13 @@ func NewUserService() *UserService {
 }
 
 // SignUp 处理用户注册的核心逻辑。
-func (s *UserService) SignUp(username, password string) error {
+func (s *UserService) SignUp(username, password string, email string) error {
 	// 1. 参数校验
 	if len(username) < 4 || len(password) < 6 {
 		return errors.New("用户名长度不能少于4位，密码长度不能少于6位")
+	}
+	if email == "" {
+		return errors.New(" 邮箱不能为空")
 	}
 
 	// 2. 检查用户名是否存在
@@ -37,6 +40,8 @@ func (s *UserService) SignUp(username, password string) error {
 	if err == nil {
 		// 如果 err 为 nil，说明找到了记录，用户名已存在。
 		return errors.New("用户名已存在")
+	} else if user.Email == email {
+		return errors.New("该邮箱已被注册")
 	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
 		// 如果是一个非 "记录未找到" 的其他数据库错误，直接返回。
 		return err
@@ -56,6 +61,7 @@ func (s *UserService) SignUp(username, password string) error {
 	newUser := model.User{
 		Username:     username,
 		PasswordHash: string(hashedPassword),
+		Email:        email,
 		// Nickname, Email, Role 等字段会使用其零值或数据库定义的默认值。
 	}
 

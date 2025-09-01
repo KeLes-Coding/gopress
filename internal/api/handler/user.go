@@ -31,6 +31,7 @@ func NewUserHandler() *UserHandler {
 type SignUpRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
 }
 
 // SignUpHandler 是处理用户注册请求的 Gin Handler。
@@ -41,12 +42,12 @@ func (h *UserHandler) SignUpHandler(c *gin.Context) {
 	// 如果 JSON 格式错误或缺少 `binding:"required"` 的字段，会返回一个错误。
 	if err := c.ShouldBindJSON(&req); err != nil {
 		// 如果参数绑定失败，说明客户端请求格式有误，返回一个错误响应。
-		response.Error("请求参数无效", c)
+		response.Error("请求参数无效"+err.Error(), c)
 		return
 	}
 
 	// 2. 调用 service 层处理注册逻辑
-	err := h.userService.SignUp(req.Username, req.Password)
+	err := h.userService.SignUp(req.Username, req.Password, req.Email)
 	if err != nil {
 		// 如果 service 层返回错误，将错误信息返回给客户端。
 		response.Error(err.Error(), c)
@@ -62,6 +63,7 @@ func (h *UserHandler) SignUpHandler(c *gin.Context) {
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	// Email    string `json:"email" binding:"required,email"`
 }
 
 // LoginResponse 定义了用户登录成功后返回的数据结构。
